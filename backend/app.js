@@ -1,5 +1,6 @@
 import express from 'express';
 import 'dotenv/config'
+import connectDB from './utils/db.js';
 
 const app = express();
 
@@ -10,11 +11,31 @@ app.get('/',(req,res)=>{
 })
 
 
+//establishing connection
+
 const PORT  =  process.env.PORT || 8000;
 const mode = process.env.NODE_ENV || 'development';
 
-app.listen(PORT, ()=>{
 
-  console.log(`Listening on port ${PORT} in ${mode}`)
-})
+const start = async ()=>{
+
+  try {
+    await connectDB(process.env.MONGO_URI);
+    console.log('connection to mongodb sccuessful');
+    app.listen(PORT, ()=>{
+      console.log(`Listening on port ${PORT} in ${mode}`)
+    })
+  } catch (error) {
+    console.log('aborting server due to some error in connecting mongodb');
+  }
+
+}
+
+
+start();
+
+
+
+
+
 
