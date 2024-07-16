@@ -18,17 +18,14 @@ const mode = process.env.NODE_ENV || 'development';
 
 
 const start = async ()=>{
-
   try {
     await connectDB(process.env.MONGO_URI);
-    console.log('connection to mongodb sccuessful');
     app.listen(PORT, ()=>{
       console.log(`Listening on port ${PORT} in ${mode}`)
     })
   } catch (error) {
     console.log('aborting server due to some error in connecting mongodb');
   }
-
 }
 
 
