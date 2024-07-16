@@ -10,9 +10,17 @@ app.use(express.urlencoded({extended:true}));
 
 
 //base route
+import userRoutes from './routes/userRoutes.js'
+
+//home route
 app.get("/", (req, res) => {
   res.send("server is working fine make your query at '/api/v1");
 });
+
+
+//custom router
+app.use('/api/v1',userRoutes);
+
 
 
 
