@@ -1,12 +1,20 @@
 import express from "express";
 import "dotenv/config";
 import connectDB from "./utils/db.js";
-
 const app = express();
 
+//middlewares
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+
+
+
+//base route
 app.get("/", (req, res) => {
-  res.send("hi from server");
+  res.send("server is working fine make your query at '/api/v1");
 });
+
+
 
 //establishing connection
 

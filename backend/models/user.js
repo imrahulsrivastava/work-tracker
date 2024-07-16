@@ -16,6 +16,7 @@ const options = {
   password: {
     type: String,
     required: [true, "Please enter your password"],
+    select:false
   },
   resetPasswordToken: String,
   resetPasswordExpires: String,
