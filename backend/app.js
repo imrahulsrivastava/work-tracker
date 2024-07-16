@@ -1,38 +1,27 @@
-import express from 'express';
-import 'dotenv/config'
-import connectDB from './utils/db.js';
+import express from "express";
+import "dotenv/config";
+import connectDB from "./utils/db.js";
 
 const app = express();
 
-
-
-app.get('/',(req,res)=>{
-  res.send('hi from server');
-})
-
+app.get("/", (req, res) => {
+  res.send("hi from server");
+});
 
 //establishing connection
 
-const PORT  =  process.env.PORT || 8000;
-const mode = process.env.NODE_ENV || 'development';
+const PORT = process.env.PORT || 8000;
+const mode = process.env.NODE_ENV || "development";
 
-
-const start = async ()=>{
+const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
-    app.listen(PORT, ()=>{
-      console.log(`Listening on port ${PORT} in ${mode}`)
-    })
+    app.listen(PORT, () => {
+      console.log(`Listening on port ${PORT} in ${mode}`);
+    });
   } catch (error) {
-    console.log('aborting server due to some error in connecting mongodb');
+    console.log("aborting server due to some error in connecting mongodb");
   }
-}
-
+};
 
 start();
-
-
-
-
-
-

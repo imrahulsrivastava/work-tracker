@@ -1,16 +1,13 @@
-import mongoose from 'mongoose';
-
-
+import mongoose from "mongoose";
 
 //making connection to mongodb
-const connectDB = async (connectionStr)=>{
+const connectDB = async (connectionStr) => {
   try {
-  await mongoose.connect(connectionStr);
-  console.log('connection to mongodb is successfull')
-    
+    await mongoose.connect(connectionStr);
+    console.log("connection to mongodb is successfull");
   } catch (error) {
-      throw new Error('connection to mongodb failed');
+    throw new Error("connection to mongodb failed");
   }
-}
+};
 
-export default connectDB
+export default connectDB;

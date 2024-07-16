@@ -1,25 +1,29 @@
-import mongoose from "mongoose";
-const {Schema} = mongoose;
+import { Schema, model } from "mongoose";
 
 const options = {
-   username:{
-    type:String,
-    required:[true,'please enter user name'],
-    unique:true
-   },
-   email:{
-    type:String,
-    required:[true,'Please enter your email'],
-    unique:true
-   },
-   password:{
-    type:String,
-    required:[true,'Please enter your password']
-   },
-   resetPasswordToken: String,
-   resetPasswordExpires:String,
-}
+  username: {
+    type: String,
+    required: [true, "Please enter your username"],
+    unique: true,
+  },
 
-const userSchema = new Schema(options,{timestamps:true});
+  email: {
+    type: String,
+    required: [true, "Please enter your email"],
+    unique: true,
+  },
 
-const usersModel  =  mongoose.model("User",userSchema);
+  password: {
+    type: String,
+    required: [true, "Please enter your password"],
+  },
+  resetPasswordToken: String,
+  resetPasswordExpires: String,
+};
+
+const userSchema = new Schema(options, { timestamps: true });
+
+const usersModel = model("User", userSchema);
+
+export default usersModel;
+
