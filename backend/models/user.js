@@ -16,8 +16,11 @@ const options = {
   password: {
     type: String,
     required: [true, "Please enter your password"],
+    minLength:[8,'Password length should be more than 8 character'],
     select:false
   },
+
+
   resetPasswordToken: String,
   resetPasswordExpires: String,
 };

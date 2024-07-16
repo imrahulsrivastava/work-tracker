@@ -2,10 +2,12 @@ import express from "express";
 import "dotenv/config";
 import connectDB from "./utils/db.js";
 const app = express();
+import errors from "./utils/errors.js";
 
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+
 
 
 
@@ -22,6 +24,9 @@ app.get("/", (req, res) => {
 app.use('/api/v1',userRoutes);
 
 
+
+//handling all errors
+app.use(errors);
 
 
 //establishing connection
