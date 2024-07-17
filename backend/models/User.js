@@ -9,13 +9,11 @@ const options = {
     required: [true, "Please enter your username"],
     unique: true,
   },
-
   email: {
     type: String,
     required: [true, "Please enter your email"],
     unique: true,
   },
-
   password: {
     type: String,
     required: [true, "Please enter your password"],
@@ -31,10 +29,10 @@ const options = {
   resetPasswordExpires: String,
 };
 
-//adding timestamps when creating the user
+// Adding timestamps when creating the user
 const userSchema = new Schema(options, { timestamps: true });
 
-// hashing password before save
+// Hashing password before save
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
@@ -43,12 +41,13 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-//compare user password
+// Methods
+// Compares Password
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// get jwt token
+// Gets JSON Web Token
 userSchema.methods.getJwtToken = function () {
   const payload = { id: this._id };
   return jwt.sign(payload, process.env.JWT_SECRET_KEY, {
@@ -56,7 +55,7 @@ userSchema.methods.getJwtToken = function () {
   });
 };
 
-// get password reset token
+// Gets password reset token
 userSchema.methods.getResetPasswordToken = function () {
   //generating reset token
   const resetToken = crypto.randomBytes(20).toString("hex");

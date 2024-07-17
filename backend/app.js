@@ -1,47 +1,49 @@
 import express from "express";
 import "dotenv/config";
-import connectDB from "./utils/db.js";
-const app = express();
-import errors from "./utils/errors.js";
 
-// handling refernce error
+// File imports
+import connectDB from "./utils/db.js";
+import errors from "./utils/errors.js";
+import ErrorHandler from "./utils/errorHandler.js";
+
+// Route files
+import userRoutes from "./routes/userRoute.js";
+
+const app = express();
+const PORT = process.env.PORT || 8000;
+const mode = process.env.NODE_ENV || "development";
+
+// Handling ReferenceError globally
 process.on("uncaughtException", (err) => {
   console.log("aborting server due to uncaught Exception");
   process.exit(1);
 });
 
-//********************middlewares******************
+// Global inbuilt middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// *******************routes******************************
-import userRoutes from "./routes/userRoutes.js";
-import ErrorHandler from "./utils/errorHandler.js";
-
-//home route
+// Home route
 app.get("/", (req, res) => {
   res.send("server is working fine make your query at '/api/v1");
 });
 
-//custom routes
+// Custom routes
 app.use("/api/v1", userRoutes);
 
-// handling unmatched routes
+// Handling unmatched routes
 app.all("*", (req, res, next) => {
   return next(new ErrorHandler(`Route ${req.originalUrl} not found`, 404));
 });
 
-//****************handling  errors globally**********************
+// Global middleware for handling errors
 app.use(errors);
 
-//********************establishing connection and starting serever************************
-const PORT = process.env.PORT || 8000;
-const mode = process.env.NODE_ENV || "development";
-
+// Establishing connection and starting server
 const start = async () => {
   try {
+    // Once mongodb connection is established, then only the server will run
     await connectDB(process.env.MONGO_URI);
-    //server will only run if connection to mongodb successfull
     app.listen(PORT, () => {
       console.log(`Listening on port ${PORT} in ${mode}`);
     });

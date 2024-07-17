@@ -1,10 +1,13 @@
-import usersModel from "../models/user.js";
+import usersModel from "../models/User.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import catchAsyncError from "../utils/captureAsyncError.js";
 import sendToken from "../utils/jwttokens.js";
 
-//******************** */ get user profile  => /api/v1/profile**************
-const getUserProfile = catchAsyncError(async (req, res, next) => {
+/**s
+ * Get a user profile
+ * Route - /api/v1/profile
+ */
+export const getUserProfile = catchAsyncError(async (req, res, next) => {
   const user = await usersModel.findById(req.user.id).select("-__v");
   res.status(200).json({
     success: true,
@@ -12,9 +15,11 @@ const getUserProfile = catchAsyncError(async (req, res, next) => {
   });
 });
 
-//************ */ update password => /api/v1/password/update*************
-
-const updatePassword = catchAsyncError(async (req, res, next) => {
+/**
+ * Update a user password
+ * Route - /api/v1/password/update
+ */
+export const updatePassword = catchAsyncError(async (req, res, next) => {
   const { currentPassword, newPassword } = req.body;
 
   const user = await usersModel.findById(req.user.id).select("+password");
@@ -28,13 +33,15 @@ const updatePassword = catchAsyncError(async (req, res, next) => {
   sendToken(user, 200, "Password updated", res);
 });
 
-//****************** */ get all user admin route => //api/v1/admin/users************
-const getAllUser = catchAsyncError(async (req, res, next) => {
+/**
+ * Admin Route
+ * Get all users
+ * Route - /api/v1/admin/users
+ */
+export const getAllUser = catchAsyncError(async (req, res, next) => {
   const users = await usersModel.find();
   res.status(200).json({
     sucess: true,
     data: users,
   });
 });
-
-export { getAllUser, getUserProfile, updatePassword };
