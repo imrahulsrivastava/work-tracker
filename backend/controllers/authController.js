@@ -1,5 +1,5 @@
 import catchAsyncError from "../utils/captureAsyncError.js";
-import usersModel from "../models/user.js";
+import usersModel from "../models/User.js";
 import sendToken from "../utils/jwttokens.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import crypto from "crypto";

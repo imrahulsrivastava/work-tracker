@@ -5,14 +5,14 @@ import {
   getAllUser,
   getUserProfile,
   updatePassword,
-} from "../controllers/userControllers.js";
+} from "../controllers/userController.js";
 import {
   forgotPassword,
   loginUser,
   logoutUser,
   register,
   resetPassword,
-} from "../controllers/authControllers.js";
+} from "../controllers/authController.js";
 
 const router = express.Router();
 

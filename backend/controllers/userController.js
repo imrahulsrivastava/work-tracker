@@ -1,9 +1,9 @@
-import usersModel from "../models/user.js";
+import usersModel from "../models/User.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import catchAsyncError from "../utils/captureAsyncError.js";
 import sendToken from "../utils/jwttokens.js";
 
-/**
+/**s
  * Get a user profile
  * Route - /api/v1/profile
  */

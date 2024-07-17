@@ -7,7 +7,7 @@ import errors from "./utils/errors.js";
 import ErrorHandler from "./utils/errorHandler.js";
 
 // Route files
-import userRoutes from "./routes/userRoutes.js";
+import userRoutes from "./routes/userRoute.js";
 
 const app = express();
 const PORT = process.env.PORT || 8000;
