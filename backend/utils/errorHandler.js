@@ -1,4 +1,3 @@
-
 // creates new error
 class ErrorHandler extends Error {
   constructor(message, statusCode) {
@@ -9,4 +8,3 @@ class ErrorHandler extends Error {
 }
 
 export default ErrorHandler;
-
