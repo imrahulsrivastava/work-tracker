@@ -1,6 +1,8 @@
+import ErrorHandler from "./errorHandler.js";
+
 const errors = (err,req,res,next)=>{
 
-  // development mode
+  //******************* */ development mode********************
    if(process.env.NODE_ENV === 'development'){
     //checking if default err object has all things
 
@@ -17,7 +19,7 @@ const errors = (err,req,res,next)=>{
    }
 
 
-   // production errors
+   //************* */ production errors*****************************
    if(process.env.NODE_ENV === 'production'){
     const error = {...err};
     error.message = err.message || 'Internal server Error';
@@ -27,7 +29,7 @@ const errors = (err,req,res,next)=>{
     //handling duplicate key
     if(err.code === 11000){
      const message =  `${Object.keys(err.keyValue)[0]} already exists `
-     error.message = message;
+     error.message = new ErrorHandler(message,400);
     }
 
     res.status(error.statusCode).json({

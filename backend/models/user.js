@@ -28,6 +28,7 @@ const options = {
   resetPasswordExpires: String,
 };
 
+//adding timestamps when creating the user
 const userSchema = new Schema(options, { timestamps: true });
 
 
