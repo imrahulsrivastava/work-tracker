@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import validator from "validator";
 
 const options = {
   username: {
@@ -13,6 +14,7 @@ const options = {
     type: String,
     required: [true, "Please enter your email"],
     unique: true,
+    validate: [validator.isemail, "Please provide a valid email"],
   },
   password: {
     type: String,
