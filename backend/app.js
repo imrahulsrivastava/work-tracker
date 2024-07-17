@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 //custom routes
 app.use("/api/v1", userRoutes);
 
-//****************handling  errors globaly**********************
+//****************handling  errors globally**********************
 app.use(errors);
 
 //********************establishing connection and starting serever************************
