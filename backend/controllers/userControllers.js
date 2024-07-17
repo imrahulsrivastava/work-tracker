@@ -2,16 +2,13 @@ import usersModel from "../models/user.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import catchAsyncError from "../utils/captureAsyncError.js";
 
+// get user profile  => /api/v1/profile
 const getUserProfile = catchAsyncError(async (req, res, next) => {
-  const { id } = req.user;
-  if (!id) {
-    return next(new ErrorHandler("username is required", 400));
-  }
-
-  const user = await usersModel.findById(id);
-  if (!user) {
-    return next(new ErrorHandler("user doesn't exist", 404));
-  }
+  const user = await usersModel.findById(req.user.id).select('-__v');
+  res.status(200).json({
+    success:true,
+    data:user
+  })
 });
 
 // get all user admin route => //api/v1/admin/users

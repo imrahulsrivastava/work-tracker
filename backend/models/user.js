@@ -25,6 +25,7 @@ const options = {
   admin: {
     type: Boolean,
     default: false,
+    select:false
   },
   resetPasswordToken: String,
   resetPasswordExpires: String,
@@ -57,13 +58,10 @@ userSchema.methods.getJwtToken = function () {
 
 // get password reset token
 userSchema.methods.getResetPasswordToken = function(){
- 
   //generating reset token
   const resetToken  =  crypto.randomBytes(20).toString('hex');
-
   this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
   this.resetPasswordExpires = Date.now() + 30 * 60 * 1000;
-  console.log('inside resetToken');
    return resetToken;
 }
 
