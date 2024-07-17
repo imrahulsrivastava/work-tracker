@@ -1,4 +1,5 @@
-// creates new error
+// Creates new error
+
 class ErrorHandler extends Error {
   constructor(message, statusCode) {
     super(message);

@@ -1,4 +1,6 @@
 import express from "express";
+
+import { isAuthenticated } from "../utils/auth.js";
 import {
   getAllUser,
   getUserProfile,
@@ -11,23 +13,20 @@ import {
   register,
   resetPassword,
 } from "../controllers/authControllers.js";
-import { isAuthenticated } from "../utils/auth.js";
 
 const router = express.Router();
 
+// User routes
 router.route("/register").post(register);
-
 router.route("/login").post(loginUser);
-
-router.route("/profile").get(isAuthenticated, getUserProfile);
 router.route("/logout").get(isAuthenticated, logoutUser);
+router.route("/profile").get(isAuthenticated, getUserProfile);
 
 router.route("/password/forgot").put(forgotPassword);
 router.route("/password/update").put(isAuthenticated, updatePassword);
 router.route("/password/reset/:token").put(resetPassword);
 
-// admin routes
-
+// Admin routes
 router.route("/admin/users").get(getAllUser);
 router.route("/admin/getuser/:id").post(getUserProfile);
 
