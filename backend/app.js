@@ -8,6 +8,7 @@ import ErrorHandler from "./utils/errorHandler.js";
 
 // Route files
 import userRoutes from "./routes/userRoute.js";
+import taskRoutes from './routes/taskRoute.js';
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -30,6 +31,8 @@ app.get("/", (req, res) => {
 
 // Custom routes
 app.use("/api/v1", userRoutes);
+app.use("/api/v1", taskRoutes);
+
 
 // Handling unmatched routes
 app.all("*", (req, res, next) => {
@@ -45,7 +48,7 @@ const start = async () => {
     // Once mongodb connection is established, then only the server will run
     await connectDB(process.env.MONGO_URI);
     app.listen(PORT, () => {
-      console.log(`Listening on port ${PORT} in ${mode}`);
+      console.log(`Listening on port ${PORT} in ${mode} mode`);
     });
   } catch (error) {
     console.log("aborting server due to some error connecting to mongodb");

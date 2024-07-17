@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const taskSchema = new Schema({
+const options = {
   title: {
     type: String,
     required: [true, "Please provide title"],
@@ -29,7 +29,9 @@ const taskSchema = new Schema({
     ref: "User",
     required: true,
   },
-});
+}
+
+const taskSchema = new Schema(options,{ timestamps: true });
 
 const taskModel = model("Task", taskSchema);
 
