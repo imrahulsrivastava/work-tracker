@@ -1,13 +1,11 @@
 import catchAsyncError from "../utils/captureAsyncError.js";
 import usersModel from "../models/user.js";
+import sendToken from "../utils/jwttokens.js";
 
 // register a user => /api/v1/register
 const register = catchAsyncError(async (req, res, next) => {
   const user = await usersModel.create(req.body);
-  res.status(201).json({
-    success: true,
-    message: "registerd successfully",
-  });
+  sendToken(user,200,res);
 });
 
 // login a user => /api/v1/login
