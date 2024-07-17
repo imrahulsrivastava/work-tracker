@@ -28,10 +28,10 @@ const errors = (err, req, res, next) => {
       error = new ErrorHandler(message, 400);
     }
 
-    //handling JsonWebTokenError 
-    if(err.name === 'JsonWebTokenError'){
-      const message = 'Please login to accesss this resource'
-      error = new ErrorHandler(message,400);
+    //handling JsonWebTokenError
+    if (err.name === "JsonWebTokenError") {
+      const message = "Please login to accesss this resource";
+      error = new ErrorHandler(message, 400);
     }
 
     res.status(error.statusCode).json({

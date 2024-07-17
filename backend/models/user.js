@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import crypto from 'crypto';
+import crypto from "crypto";
 
 const options = {
   username: {
@@ -25,7 +25,7 @@ const options = {
   admin: {
     type: Boolean,
     default: false,
-    select:false
+    select: false,
   },
   resetPasswordToken: String,
   resetPasswordExpires: String,
@@ -57,13 +57,16 @@ userSchema.methods.getJwtToken = function () {
 };
 
 // get password reset token
-userSchema.methods.getResetPasswordToken = function(){
+userSchema.methods.getResetPasswordToken = function () {
   //generating reset token
-  const resetToken  =  crypto.randomBytes(20).toString('hex');
-  this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+  const resetToken = crypto.randomBytes(20).toString("hex");
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
   this.resetPasswordExpires = Date.now() + 30 * 60 * 1000;
-   return resetToken;
-}
+  return resetToken;
+};
 
 const usersModel = model("User", userSchema);
 
