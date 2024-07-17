@@ -14,6 +14,7 @@ if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
 if(!token) {
   next(new ErrorHandler('Please login before accessing this information',400));
 }
+
 const decode = jwt.verify(token,process.env.JWT_SECRET_KEY);
 
 const user = await usersModel.findById(decode.id);

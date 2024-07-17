@@ -18,14 +18,20 @@ const errors = (err, req, res, next) => {
 
   //************* */ production errors*****************************
   if (process.env.NODE_ENV === "production") {
-    const error = { ...err };
+    let error = { ...err };
     error.message = err.message || "Internal server Error";
     error.statusCode = err.statusCode || 500;
 
     //handling duplicate key
     if (err.code === 11000) {
-      const message = `${Object.keys(err.keyValue)[0]} already exists `;
-      error.message = new ErrorHandler(message, 400);
+      const message = `${Object.keys(err.keyValue)} already exists `;
+      error = new ErrorHandler(message, 400);
+    }
+
+    //handling JsonWebTokenError 
+    if(err.name === 'JsonWebTokenError'){
+      const message = 'Please login to accesss this resource'
+      error = new ErrorHandler(message,400);
     }
 
     res.status(error.statusCode).json({
