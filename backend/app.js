@@ -5,10 +5,10 @@ const app = express();
 import errors from "./utils/errors.js";
 
 // handling refernce error
-process.on('uncaughtException',(err)=>{
-console.log('aborting server due to uncaught Exception');
-process.exit(1);
-})
+process.on("uncaughtException", (err) => {
+  console.log("aborting server due to uncaught Exception");
+  process.exit(1);
+});
 
 //********************middlewares******************
 app.use(express.json());
@@ -27,10 +27,9 @@ app.get("/", (req, res) => {
 app.use("/api/v1", userRoutes);
 
 // handling unmatched routes
-app.all('*',(req,res,next)=>{
-  return next(new ErrorHandler(`Route ${req.originalUrl} not found`,404)
-  )
-})
+app.all("*", (req, res, next) => {
+  return next(new ErrorHandler(`Route ${req.originalUrl} not found`, 404));
+});
 
 //****************handling  errors globally**********************
 app.use(errors);
@@ -52,9 +51,3 @@ const start = async () => {
 };
 
 start();
-
-
-
-
-
-
