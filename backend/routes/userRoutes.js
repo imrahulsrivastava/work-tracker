@@ -22,9 +22,9 @@ router.route("/login").post(loginUser);
 router.route("/profile").get(isAuthenticated, getUserProfile);
 router.route("/logout").get(isAuthenticated, logoutUser);
 
-router.route("/password/forgot").post(forgotPassword);
-router.route("/password/update").post(isAuthenticated, updatePassword);
-router.route("/password/reset/:token").post(resetPassword);
+router.route("/password/forgot").put(forgotPassword);
+router.route("/password/update").put(isAuthenticated, updatePassword);
+router.route("/password/reset/:token").put(resetPassword);
 
 // admin routes
 
