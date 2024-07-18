@@ -15,7 +15,7 @@ export const isAuthenticated = catchAsyncError(async (req, res, next) => {
 
   if (!token) {
     next(
-      new ErrorHandler("Please login before accessing this information", 400)
+      new ErrorHandler("Please login before accessing this information", 400),
     );
   }
 
@@ -30,7 +30,7 @@ export const isAuthorize = () => {
   return (req, res, next) => {
     if (req.user.admin === false) {
       return next(
-        new ErrorHandler("You are not alowed to access this resouce", 401)
+        new ErrorHandler("You are not alowed to access this resouce", 401),
       );
     }
     next();

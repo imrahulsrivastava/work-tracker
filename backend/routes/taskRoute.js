@@ -10,7 +10,7 @@ import {
   getSingleTask,
   updateTask,
   uploadFile,
-} from "../controllers/taskControlles.js";
+} from "../controllers/taskController.js";
 
 const router = express.Router();
 
