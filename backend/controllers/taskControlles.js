@@ -1,7 +1,9 @@
 import catchAsyncError from "../utils/captureAsyncError.js";
 import taskModel from "../models/task.js";
 import ErrorHandler from "../utils/errorHandler.js";
-
+import path from "path";
+import fs from "fs";
+import { takeCoverage } from "v8";
 
 //*********************create Task => /api/v1/task/new  */********************** */
 export const createTask = catchAsyncError(async (req, res, next) => {
@@ -9,7 +11,6 @@ export const createTask = catchAsyncError(async (req, res, next) => {
   const task = await taskModel.create({ ...req.body, user });
   res.status(201).json({ success: true, data: task });
 });
-
 
 // ************************get all task => /api/v1/tasks**************
 export const getAllTask = catchAsyncError(async (req, res, next) => {
@@ -22,8 +23,6 @@ export const getAllTask = catchAsyncError(async (req, res, next) => {
   res.status(200).json({ success: true, data: tasks });
 });
 
-
-
 // ************************get single task => /api/v1/tasks/:id**************
 export const getSingleTask = catchAsyncError(async (req, res, next) => {
   const task = await taskModel.findById(req.id);
@@ -33,8 +32,6 @@ export const getSingleTask = catchAsyncError(async (req, res, next) => {
   }
   res.status(200).json({ success: true, data: task });
 });
-
-
 
 // ************************update task => /api/v1/tasks/:id**************
 export const updateTask = catchAsyncError(async (req, res, next) => {
@@ -50,8 +47,6 @@ export const updateTask = catchAsyncError(async (req, res, next) => {
   res.status(200).json({ success: true, data: task });
 });
 
-
-
 // ************************delete task => /api/v1/tasks/:id**************
 export const deleteTask = catchAsyncError(async (req, res, next) => {
   let task = await taskModel.findById(req.params.id);
@@ -63,3 +58,46 @@ export const deleteTask = catchAsyncError(async (req, res, next) => {
 
   res.status(200).json({ success: true, message: "task deleted" });
 });
+
+//*****************************upload audio file => /api/v1/audio/:id */
+export const uploadFile = async (req, res, next) => {
+  const task = await taskModel.findById(req.params.id);
+  if (!task) {
+    return next(new ErrorHandler("no task found with this id", 404));
+  }
+  if (!req.files) {
+    return next(new ErrorHandler("Please provide a file", 400));
+  }
+  const file = req.files.audio;
+
+  if (file.size > process.env.AUDIO_SIZE) {
+    return next(new ErrorHandler("Audio should be less than 2mb", 400));
+  }
+
+  if (!file.mimetype.includes("audio")) {
+    return next(new ErrorHandler("File should of type audio"));
+  }
+
+  file.name = `${req.user.username.split(" ").join("_")}-${task.id}${
+    path.parse(file.name).ext
+  }`;
+  file.mv(`./public/uploads/${file.name}`, async (err) => {
+    if (err) return next(new ErrorHandler("file not uploadeded"));
+    task.audio = file.name;
+    await task.save();
+    res.send("uploaded successfully");
+  });
+};
+
+//**************** */ get audio => /api/v1/audio/:id ******************
+export const getAudioFile = async (req, res, next) => {
+  const task = await taskModel.findById(req.params.id);
+  if (!task || !task.audio) {
+    return next(new ErrorHandler("no audio found with this id", 404));
+  }
+  const filePath = path.join(__dirname, "public", "uploads", task.audio);
+  res.setHeader("Content-Type", "audio/mpeg");
+  res.setHeader("Content-Disposition", 'attachment; filename="sample.mp3"');
+  const readStream = fs.createReadStream(filePath);
+  readStream.pipe(res);
+};

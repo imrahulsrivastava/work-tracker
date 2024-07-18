@@ -24,14 +24,17 @@ const options = {
     },
     default: "Low",
   },
+  audio: {
+    type: String,
+  },
   user: {
     type: Schema.ObjectId,
     ref: "User",
     required: true,
   },
-}
+};
 
-const taskSchema = new Schema(options,{ timestamps: true });
+const taskSchema = new Schema(options, { timestamps: true });
 
 const taskModel = model("Task", taskSchema);
 

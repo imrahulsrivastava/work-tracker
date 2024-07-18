@@ -20,8 +20,19 @@ export const isAuthenticated = catchAsyncError(async (req, res, next) => {
   }
 
   const decode = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  const user = await usersModel.findById(decode.id);
+  const user = await usersModel.findById(decode.id).select("+admin");
   req.user = user;
 
   next();
 });
+
+export const isAuthorize = () => {
+  return (req, res, next) => {
+    if (req.user.admin === false) {
+      return next(
+        new ErrorHandler("You are not alowed to access this resouce", 401)
+      );
+    }
+    next();
+  };
+};

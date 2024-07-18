@@ -2,6 +2,7 @@ import usersModel from "../models/User.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import catchAsyncError from "../utils/captureAsyncError.js";
 import sendToken from "../utils/jwttokens.js";
+import verifyEmailAndUsername from "../utils/verifyEmailAndUsername.js";
 
 /**s
  * Get a user profile
@@ -9,6 +10,27 @@ import sendToken from "../utils/jwttokens.js";
  */
 export const getUserProfile = catchAsyncError(async (req, res, next) => {
   const user = await usersModel.findById(req.user.id).select("-__v");
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
+/**s
+ * update a user Data
+ * Route - /api/v1/profile/update
+ */
+export const updateUserData = catchAsyncError(async (req, res, next) => {
+  // verify if req.body has email,username
+  const newUserData = verifyEmailAndUsername(req.body);
+  if (!newUserData) {
+    return next(new ErrorHandler("Please provide data to update", 400));
+  }
+  const user = await usersModel.findByIdAndUpdate(req.user.id, newUserData, {
+    new: true,
+    runValidators: true,
+  });
+
   res.status(200).json({
     success: true,
     data: user,
@@ -36,7 +58,7 @@ export const updatePassword = catchAsyncError(async (req, res, next) => {
 /**
  * Admin Route
  * Get all users
- * Route - /api/v1/admin/users
+ * Route - /api/v1/users
  */
 export const getAllUser = catchAsyncError(async (req, res, next) => {
   const users = await usersModel.find();

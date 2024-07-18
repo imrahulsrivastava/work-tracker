@@ -9,12 +9,13 @@ const options = {
     type: String,
     required: [true, "Please enter your username"],
     unique: true,
+    minLength: [5, "Username should be more than 5 character"],
   },
   email: {
     type: String,
     required: [true, "Please enter your email"],
     unique: true,
-    validate: [validator.isemail, "Please provide a valid email"],
+    validate: [validator.isEmail, "Please provide a valid email"],
   },
   password: {
     type: String,
