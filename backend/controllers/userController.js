@@ -17,6 +17,16 @@ export const getUserProfile = catchAsyncError(async (req, res, next) => {
 });
 
 /**s
+ * verify user login
+ * Route - /api/v1/verify
+ */
+export const verifyLogin = catchAsyncError(async (req, res, next) => {
+  res.status(200).json({
+    success: true,
+  });
+});
+
+/**s
  * update a user Data
  * Route - /api/v1/profile/update
  */

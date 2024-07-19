@@ -6,6 +6,7 @@ import {
   getUserProfile,
   updatePassword,
   updateUserData,
+  verifyLogin,
 } from "../controllers/userController.js";
 import {
   forgotPassword,
@@ -22,6 +23,8 @@ router.route("/register").post(register);
 router.route("/login").post(loginUser);
 router.route("/logout").get(isAuthenticated, logoutUser);
 router.route("/profile").get(isAuthenticated, getUserProfile);
+router.route("/verify").get(isAuthenticated, verifyLogin);
+
 router.route("/profile/update").put(isAuthenticated, updateUserData);
 
 router.route("/password/forgot").put(forgotPassword);

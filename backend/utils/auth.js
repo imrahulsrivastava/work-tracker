@@ -21,7 +21,7 @@ export const isAuthenticated = catchAsyncError(async (req, res, next) => {
 
   if (!token) {
     next(
-      new ErrorHandler("Please login before accessing this information", 400)
+      new ErrorHandler("Please login before accessing this information", 401)
     );
   }
 
