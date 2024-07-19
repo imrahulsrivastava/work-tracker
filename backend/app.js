@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import "dotenv/config";
 const app = express();
@@ -45,6 +46,7 @@ app.set("views", __dirname + "/views");
 // Global inbuilt middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Home route
 app.get("/", (req, res) => {

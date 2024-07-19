@@ -27,7 +27,7 @@ export const getAllTask = catchAsyncError(async (req, res, next) => {
   if (tasks?.length === 0 || !tasks) {
     return next(new ErrorHandler("no task found", 404));
   }
-  res.status(200).json({ success: true, data: tasks });
+  res.status(200).json({ success: true, results: tasks.length, data: tasks });
 });
 
 // ************************get single task => /api/v1/tasks/:id**************
