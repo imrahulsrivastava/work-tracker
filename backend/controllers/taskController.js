@@ -88,7 +88,7 @@ export const uploadFile = async (req, res, next) => {
   file.name = `${req.user.username.split(" ").join("_")}-${task.id}${
     path.parse(file.name).ext
   }`;
-  file.mv(`./public/uploads/${file.name}`, async (err) => {
+  file.mv(`./files/uploads/${file.name}`, async (err) => {
     if (err) return next(new ErrorHandler("file not uploadeded"));
     task.audio = file.name;
     await task.save();

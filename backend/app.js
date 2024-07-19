@@ -1,5 +1,7 @@
 import express from "express";
+import cors from "cors";
 import "dotenv/config";
+const app = express();
 
 //getting __dirname in es6
 import path from "path";
@@ -7,6 +9,15 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 global.__dirname = __dirname;
+
+//corrs setup for localhost5173
+app.use(
+  cors({
+    origin: "http://localhost:5137",
+    methods: "GET,HEAD,PUT,PATCH,DELETE,POST",
+    credentials: true, // for cookies
+  })
+);
 
 // File imports
 import connectDB from "./utils/db.js";
@@ -17,7 +28,6 @@ import ErrorHandler from "./utils/errorHandler.js";
 import userRoutes from "./routes/userRoute.js";
 import taskRoutes from "./routes/taskRoute.js";
 
-const app = express();
 const PORT = process.env.PORT || 8000;
 const mode = process.env.NODE_ENV || "development";
 
