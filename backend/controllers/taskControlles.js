@@ -3,7 +3,7 @@ import taskModel from "../models/task.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import path from "path";
 import fs from "fs";
-import { takeCoverage } from "v8";
+import ApiFilters from "../utils/ApiFilters.js";
 
 //*********************create Task => /api/v1/task/new  */********************** */
 export const createTask = catchAsyncError(async (req, res, next) => {
@@ -15,7 +15,13 @@ export const createTask = catchAsyncError(async (req, res, next) => {
 // ************************get all task => /api/v1/tasks**************
 export const getAllTask = catchAsyncError(async (req, res, next) => {
   const user = req.user.id;
-  const tasks = await taskModel.find({ user });
+  const apiFilters = new ApiFilters(taskModel.find({ user }), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .pagination();
+
+  const tasks = await apiFilters.query;
 
   if (tasks?.length === 0 || !tasks) {
     return next(new ErrorHandler("no task found", 404));
