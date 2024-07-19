@@ -13,7 +13,7 @@ global.__dirname = __dirname;
 //corrs setup for localhost5173
 app.use(
   cors({
-    origin: "http://localhost:5137",
+    origin: "http://localhost:5173",
     methods: "GET,HEAD,PUT,PATCH,DELETE,POST",
     credentials: true, // for cookies
   })
