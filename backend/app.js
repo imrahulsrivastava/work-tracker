@@ -20,6 +20,9 @@ app.use(
   })
 );
 
+//setting public routes
+app.use(express.static(path.join(__dirname, "public")));
+
 // File imports
 import connectDB from "./utils/db.js";
 import errors from "./utils/errors.js";
@@ -39,7 +42,6 @@ process.on("uncaughtException", (err) => {
 });
 
 // view engine
-
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
@@ -49,9 +51,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Home route
-app.get("/", (req, res) => {
-  res.send("server is working fine make your query at '/api/v1");
-});
+// app.get("/", (req, res) => {
+//   res.send("server is working fine make your query at '/api/v1");
+// });
 
 //file
 app.get("/file", (req, res) => {
@@ -64,7 +66,8 @@ app.use("/api/v1", taskRoutes);
 
 // Handling unmatched routes
 app.all("*", (req, res, next) => {
-  return next(new ErrorHandler(`Route ${req.originalUrl} not found`, 404));
+  // return next(new ErrorHandler(`Route ${req.originalUrl} not found`, 404));
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // Global middleware for handling errors

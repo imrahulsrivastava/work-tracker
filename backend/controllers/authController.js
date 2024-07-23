@@ -59,12 +59,12 @@ export const forgotPassword = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("provide email and username", 400));
   }
   const user = await usersModel.findOne({ email, username });
-  if (!user) return next(new ErrorHandler("Invalid username or password", 400));
+  if (!user) return next(new ErrorHandler("Invalid email or username", 400));
   const resetToken = user.getResetPasswordToken();
   await user.save({ validateBeforeSave: false });
   res.status(200).json({
     success: true,
-    message: "Reset Password Token generated successfully",
+    message: "User Found Successfuly",
     resetToken,
   });
 });

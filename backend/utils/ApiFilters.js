@@ -5,6 +5,37 @@ class ApiFilters {
   }
 
   filter() {
+    const copyStr = { ...this.queryStr };
+
+    const queryDateArr = copyStr?.date?.split("-");
+    const filterQuery = copyStr?.filter;
+    // console.log(queryDateArr, filterQuery);
+
+    const date = new Date();
+    const year = queryDateArr?.length ? queryDateArr[2] : date.getFullYear();
+    const month = queryDateArr?.length ? queryDateArr[1] - 1 : date.getMonth();
+    const day = queryDateArr?.length ? queryDateArr[0] : date.getDate();
+
+    let startOfDate = new Date(Date.UTC(year, month, day, 0, 0, 0, 0));
+    let endOfDate = new Date(Date.UTC(year, month, day, 23, 59, 59, 999));
+
+    if (filterQuery === "month") {
+      startOfDate = new Date(
+        Date.UTC(year, month, copyStr.date ? day : 1, 0, 0, 0, 0)
+      );
+      endOfDate = new Date(
+        Date.UTC(year, month + 1, copyStr.date ? day : 0, 23, 59, 59, 999)
+      );
+    }
+    let query = {
+      createdAt: {
+        $gte: startOfDate,
+        $lte: endOfDate,
+      },
+    };
+    console.log(query);
+    if (filterQuery === "false") query = {};
+    this.query = this.query.find(query);
     return this;
   }
 
