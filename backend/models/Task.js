@@ -24,6 +24,10 @@ const options = {
     },
     default: "Low",
   },
+  completed: {
+    type: Boolean,
+    default: false,
+  },
   audio: {
     type: String,
   },

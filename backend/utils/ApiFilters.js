@@ -57,13 +57,13 @@ class ApiFilters {
     return this;
   }
 
-  pagination() {
-    const page = parseInt(this.queryStr.page) || 1;
-    const limit = parseInt(this.queryStr.limit) || 10;
-    const skipResults = (page - 1) * limit;
-    this.query = this.query.skip(skipResults).limit(limit);
-    return this;
-  }
+  // pagination() {
+  // const page = parseInt(this.queryStr.page) || 1;
+  // const limit = parseInt(this.queryStr.limit) || 10;
+  // const skipResults = (page - 1) * limit;
+  //   this.query = this.query.skip(skipResults).limit(limit);
+  //   return this;
+  // }
 }
 
 export default ApiFilters;

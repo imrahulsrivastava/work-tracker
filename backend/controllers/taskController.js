@@ -19,8 +19,8 @@ export const getAllTask = catchAsyncError(async (req, res, next) => {
   const apiFilters = new ApiFilters(taskModel.find({ user }), req.query)
     .filter()
     .sort()
-    .limitFields()
-    .pagination();
+    .limitFields();
+  // .pagination();
 
   const tasks = await apiFilters.query;
 
