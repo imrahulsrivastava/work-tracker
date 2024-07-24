@@ -8,13 +8,9 @@ const options = {
   description: {
     type: String,
   },
-  targetTime: {
+  targetDateTime: {
     type: String,
-    required: [true, "Please provide target time"],
-  },
-  targetDate: {
-    type: String,
-    required: [true, "Please provide target date"],
+    required: [true, "Please provide target date and time"],
   },
   priority: {
     type: String,

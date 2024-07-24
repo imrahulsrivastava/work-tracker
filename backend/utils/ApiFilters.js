@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 class ApiFilters {
   constructor(query, queryStr) {
     this.query = query;
@@ -16,24 +17,31 @@ class ApiFilters {
     const month = queryDateArr?.length ? queryDateArr[1] - 1 : date.getMonth();
     const day = queryDateArr?.length ? queryDateArr[0] : date.getDate();
 
-    let startOfDate = new Date(Date.UTC(year, month, day, 0, 0, 0, 0));
-    let endOfDate = new Date(Date.UTC(year, month, day, 23, 59, 59, 999));
+    let startOfDate = dayjs(
+      new Date(Date.UTC(year, month, day, 0, 0, 0, 0))
+    ).format();
+    let endOfDate = dayjs(
+      new Date(Date.UTC(year, month, day, 23, 59, 59, 999))
+    ).format();
 
     if (filterQuery === "month") {
-      startOfDate = new Date(
-        Date.UTC(year, month, copyStr.date ? day : 1, 0, 0, 0, 0)
-      );
-      endOfDate = new Date(
-        Date.UTC(year, month + 1, copyStr.date ? day : 0, 23, 59, 59, 999)
-      );
+      startOfDate = dayjs(
+        new Date(Date.UTC(year, month, copyStr.date ? day : 1, 0, 0, 0, 0))
+      ).format();
+
+      endOfDate = dayjs(
+        new Date(
+          Date.UTC(year, month + 1, copyStr.date ? day : 0, 23, 59, 59, 999)
+        )
+      ).format();
     }
     let query = {
-      createdAt: {
+      targetDateTime: {
         $gte: startOfDate,
         $lte: endOfDate,
       },
     };
-    console.log(query);
+
     if (filterQuery === "false") query = {};
     this.query = this.query.find(query);
     return this;
