@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import validator from "validator";
+import { type } from "os";
 
 const options = {
   username: {
@@ -10,6 +11,10 @@ const options = {
     required: [true, "Please enter your username"],
     unique: true,
     minLength: [5, "Username should be more than 5 character"],
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
   },
   email: {
     type: String,
